@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AuthWrapper from "@/auth_wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AuthWrapper> {/* Wrapping the entire app with AuthWrapper */}
+          <div>
+            {children}
+          </div>
+        </AuthWrapper>
+      </body>
     </html>
   );
 }

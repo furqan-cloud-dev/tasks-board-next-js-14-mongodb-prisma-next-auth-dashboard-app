@@ -15,6 +15,10 @@ const config: Config = {
   //     },
   //   },
   // },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('preline/plugin'),
+  ],
+  darkMode: 'class'
 };
 export default config;

@@ -1,3 +1,33 @@
+<h1 align="center">Tasks Board App Created With Next.js 14.1 (app dir) + React 18</h1>
+
+![Tech stack](./assets/readme/tech-stack.png)
+
+## Features
+
+- Written in modern React
+- Uses Next js 14.1 app directory structure
+- Explores basic React Server Components
+- Full user authentication lifecycle with Next-Auth v5
+- Modern data fetching using React-Query
+- Simple local React state management, without redux, mobx, or similar
+- Uses Tailwind for styling
+- Uses Prisma ORM for database modeling
+- Entire app written with typescript
+- End to end type safety with Zod
+
+## Setting up development environment
+
+- Project uses Prisma, you can decide which database to use. \*By default it uses the 'mongodb' provider
+- `git clone [repo url]`
+- Create an empty `.env` file inside the root dir `/`, copy `env/.env.example` contents into it, and fill in the variables needed.
+- `npm install`
+- `npx prisma db seed`
+- Lookup 'USE THIS IF RUNNING LOCALLY' inside the project and follow the instructions.
+- `npm run dev`
+- App should now be running on `http://localhost:3000/`
+
+## Next.js 14.1
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -34,3 +64,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Author
+
+Furqan Khan
+
+Software Developer / Solution Architect
+
+furqan.cloud.dev@gmail.com

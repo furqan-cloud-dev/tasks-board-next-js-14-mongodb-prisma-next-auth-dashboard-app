@@ -1,4 +1,4 @@
-<h1 align="center">Tasks Board App Created With Next.js 14.1 (app dir) + React 18</h1>
+<h1 align="center">Tasks Board App Created With Next.js 14.1 (app dir) + React.js 18</h1>
 
 ![Tech stack](./assets/readme/tech-stack.png)
 
@@ -12,16 +12,18 @@
 - Simple local React state management, without redux, mobx, or similar
 - Uses Tailwind for styling
 - Uses Prisma ORM for database modeling
-- Entire app written with typescript
+- MongoDB NoSQL Database Integration
+- Entire app written with Typescript
 - End to end type safety with Zod
 
 ## Setting up development environment
 
 - Project uses Prisma, you can decide which database to use. \*By default it uses the 'mongodb' provider
 - `git clone [repo url]`
-- Create an empty `.env` file inside the root dir `/`, copy `env/.env.example` contents into it, and fill in the variables needed.
+- Create an empty `.env` file inside the root dir `/`, copy `env/env.example` contents into it, and fill in the variables needed.
 - `npm install`
 - `npx prisma db seed`
+- Setup Local Database for MongoDB OR Use MongoDB Cloud Atlas for cloud db (e.g. for macOS: brew tap mongodb/brew). To run MongoDB (i.e. the mongod process) as a macOS service, run: brew services start mongodb-community@7.0
 - Lookup 'USE THIS IF RUNNING LOCALLY' inside the project and follow the instructions.
 - `npm run dev`
 - App should now be running on `http://localhost:3000/`

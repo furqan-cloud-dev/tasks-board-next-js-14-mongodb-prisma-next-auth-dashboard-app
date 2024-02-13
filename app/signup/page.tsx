@@ -9,7 +9,7 @@ export default function SignUpPage() {
     const [errorMsgGoogle, dispatchGoogle] = useFormState(googleAuthenticate, undefined) //googleAuthenticate hook
     return (
         <>
-            <div className="h-full">
+            <div className="h-screen">
                 <div className="dark:bg-slate-900 bg-gray-100 flex h-full items-center py-16">
                     <div className="w-full max-w-md mx-auto p-6">
                         <div className="container flex justify-center">

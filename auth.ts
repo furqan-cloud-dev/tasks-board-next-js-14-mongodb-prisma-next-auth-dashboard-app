@@ -1,10 +1,11 @@
 // auth.ts
+"use server"
+
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { User } from './lib/models';
 import { PrismaClient } from '@prisma/client';
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import google from 'next-auth/providers/google';
 import axios from 'axios';
 
@@ -27,7 +28,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
           // Add you backend code here
           // let loginRes = await backendLogin(credentials.id, credentials.password)
           try {
-            const user = await prisma.user.findUnique({ where: { email: credentials.id } });
+            const user = await prisma.user.findUnique({ where: { email: credentials.id as string } });
             // If no user is found, throw an error
             if (!user) {
               return null;
@@ -96,7 +97,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
       }
     },
     async session({ session, token }) {
-      session.user = token.user as User
+      // session.user = token.user as User
       return session;
     },
     async jwt({ token, user, trigger, session }) {

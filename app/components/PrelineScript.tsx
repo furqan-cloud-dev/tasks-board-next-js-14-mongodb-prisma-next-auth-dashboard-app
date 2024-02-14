@@ -24,5 +24,5 @@ export default function PrelineScript() {
         }, 100)
     }, [path])
 
-    return null;
+    return <></>;
 }

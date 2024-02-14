@@ -4,14 +4,10 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
-import { User } from './lib/models';
 import { PrismaClient } from '@prisma/client';
 import google from 'next-auth/providers/google';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
-
-
-
 
 
 const prisma = new PrismaClient()
@@ -63,7 +59,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
               id: loginRes.data.user.id ?? '',
               name: loginRes.data.user.name ?? '',
               email: loginRes.data.user.email ?? '',
-            } as User;
+            };
             return userObject;
           } catch (error: any) {
             console.log(error);

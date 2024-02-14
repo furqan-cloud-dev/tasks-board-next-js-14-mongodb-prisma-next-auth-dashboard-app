@@ -1,5 +1,5 @@
 // src/app/login/page.tsx
-"use client"
+'use client'
 
 import { authenticate, googleAuthenticate } from "@/lib/actions"
 import { useFormState } from "react-dom"

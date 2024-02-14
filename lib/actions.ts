@@ -5,22 +5,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "../auth";
 import { AuthError } from "next-auth";
-import { Task } from "./models";
-import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { hashPassword } from "./utilities";
+import { schemaCreateUser, schemaCreateTask } from "./validations";
 
 
 const prisma = new PrismaClient()
-
-
-const schemaCreateUser = z.object({
-  name: z.string(),
-  email: z.string({
-    invalid_type_error: 'Invalid Email',
-  }),
-  password: z.string(),
-})
 
 
 export async function createUser(prevState: any, formData: FormData) {
@@ -76,6 +66,45 @@ export async function createUser(prevState: any, formData: FormData) {
 
   revalidatePath("/login");
   redirect("/login");
+}
+
+
+export async function createTask(prevState: any, formData: FormData) {
+  const validatedFields = schemaCreateTask.safeParse({
+    title: formData.get('title')
+  })
+
+  // Return early if the form data is invalid
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const title = formData.get('title') as string
+  const description = formData.get('description') as string
+
+  try {
+    const createdTask = await prisma.task.create({
+      data: {
+        title: title,
+        description: description
+      }
+    });
+
+    if (createdTask) {
+      console.log({ createdTask })
+    }
+
+  } catch (error: any) {
+    console.log(error);
+    return {
+      message: error.message
+    }
+  }
+
+  revalidatePath("/dashboard/tasks");
+  // redirect("/dashboard/tasks");
 }
 
 /*

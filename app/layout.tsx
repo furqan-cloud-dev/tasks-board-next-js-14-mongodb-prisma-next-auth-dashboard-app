@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthWrapper from "@/auth_wrapper";
+import PrelineScript from "./components/PrelineScript";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
           </div>
         </AuthWrapper>
       </body>
+      <PrelineScript />
     </html>
   );
 }

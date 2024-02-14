@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-export default function Task({ title, dateStr }: { title: string, dateStr: string }) {
+export default function TaskComp({ title, dateStr }: { title: string, dateStr: string }) {
     return (
         <>
             <tr>

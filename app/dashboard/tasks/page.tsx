@@ -1,5 +1,5 @@
 import CreateTask from "@/app/components/task/CreateTask"
-import Task from "@/app/components/task/Task";
+import TaskComp from "@/app/components/task/TaskComp";
 import { PrismaClient } from "@prisma/client"
 import { Suspense } from "react";
 
@@ -19,7 +19,7 @@ async function TasksList() {
 
     return (
         <>
-            {tasks.map((task) => <Task key={task.id} title={task.title} dateStr={task.createdAt.toDateString()} />)}
+            {tasks.map((task) => <TaskComp key={task.id} title={task.title} dateStr={task.createdAt.toDateString()} />)}
         </>
     )
 }

@@ -8,6 +8,7 @@ import { AuthError } from "next-auth";
 import { Task } from "./models";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import { hashPassword } from "./utilities";
 
 
 const prisma = new PrismaClient()
@@ -49,11 +50,13 @@ export async function createUser(prevState: any, formData: FormData) {
       }
     }
 
+    const hashedPassword = await hashPassword(password);
+
     const createUser = await prisma.user.create({
       data: {
         name: name,
         email: email,
-        password: password
+        password: hashedPassword
       }
     });
 
@@ -165,3 +168,5 @@ export async function addTask(formData: FormData) {
   redirect("/dashboard/products");
 };
 */
+
+

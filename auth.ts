@@ -8,6 +8,10 @@ import { User } from './lib/models';
 import { PrismaClient } from '@prisma/client';
 import google from 'next-auth/providers/google';
 import axios from 'axios';
+import bcrypt from 'bcryptjs';
+
+
+
 
 
 const prisma = new PrismaClient()
@@ -37,10 +41,13 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
             console.log({ user });
 
             // Step 2: Check if the password is correct
-            const isPasswordValid = user.password === credentials.password;
+            const isPasswordCorrect = await bcrypt.compare(
+              credentials.password as string,
+              user.password
+            );
 
             // If password does not match, throw an error
-            if (!isPasswordValid) {
+            if (!isPasswordCorrect) {
               return null;
             }
 

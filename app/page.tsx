@@ -1,7 +1,6 @@
 // src/app/page.tsx
 import { auth, signOut, unstable_update } from "@/auth"
 import { User } from "next-auth";
-import { Button } from '@nextui-org/button';
 
 
 export default async function Home() {
@@ -25,9 +24,6 @@ export default async function Home() {
           Log Out
         </button>
       </form>
-      <div>
-        <Button>Click me</Button>
-      </div>
     </div>
   )
 }

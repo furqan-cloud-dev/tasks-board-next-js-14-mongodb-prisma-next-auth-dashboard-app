@@ -1,5 +1,7 @@
 // src/auth.config.ts
 import type { NextAuthConfig } from 'next-auth';
+import credentials from 'next-auth/providers/credentials';
+import google from 'next-auth/providers/google';
 
 export const authConfig = {
   pages: {
@@ -10,7 +12,7 @@ export const authConfig = {
       // Check if the user is authenticated
       const isLoggedIn = !!auth?.user;
       // Initialize protected routes
-      // Here, all routes except the login page is protected
+      // Here, all routes except the login and signup page is protected
       const isOnProtected = !(nextUrl.pathname.startsWith('/login') || nextUrl.pathname.startsWith('/signup'));
 
       if (isOnProtected) {
@@ -23,5 +25,5 @@ export const authConfig = {
       return true;
     },
   },
-  providers: [], // Add providers with an empty array for now
+  providers: [google, credentials],
 } satisfies NextAuthConfig;

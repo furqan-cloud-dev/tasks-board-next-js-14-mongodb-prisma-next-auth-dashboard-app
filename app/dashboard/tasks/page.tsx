@@ -1,5 +1,6 @@
-import CreateTask from "@/app/components/task/CreateTask"
-import TaskComp from "@/app/components/task/TaskComp";
+import CreateTask from "@/components/task/CreateTask"
+import TaskComp from "@/components/task/TaskComp";
+import { auth } from "@/auth";
 import { PrismaClient } from "@prisma/client"
 import { Suspense } from "react";
 
@@ -7,7 +8,10 @@ const prisma = new PrismaClient()
 let totalTasks = 0;
 
 async function TasksList() {
+    const session = await auth() // calling session
+    const user = session?.user;
     const tasks = await prisma.task.findMany({
+        where: { userId: user?.id },
         orderBy: [
             {
                 createdAt: 'desc',

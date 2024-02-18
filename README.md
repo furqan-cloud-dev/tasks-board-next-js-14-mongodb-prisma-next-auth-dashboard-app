@@ -7,10 +7,9 @@
 - Written in modern React
 - Uses Next js 14.1 app directory structure
 - Explores basic React Server Components
-- Full user authentication lifecycle with Next-Auth v5
-- Modern data fetching using React-Query
-- Simple local React state management, without redux, mobx, or similar
-- Uses Tailwind for styling
+- Full user authentication lifecycle with Next-Auth v5 - [Upgrade Guide (v5)](https://authjs.dev/guides/upgrade-to-v5)
+
+- Uses Tailwind, Shadcn UI for styling - [shadcn/ui](https://ui.shadcn.com/)
 - Uses Prisma ORM for database modeling
 - MongoDB NoSQL Database Integration
 - Entire app written with Typescript

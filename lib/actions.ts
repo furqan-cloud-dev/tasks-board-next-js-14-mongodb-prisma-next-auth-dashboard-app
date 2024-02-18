@@ -3,14 +3,27 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { signIn } from "../auth";
-import { AuthError } from "next-auth";
+import { auth, signIn } from "../auth";
+import { AuthError, User } from "next-auth";
 import { PrismaClient } from "@prisma/client";
-import { hashPassword } from "./utilities";
+// import { hashStringValue } from "./utils";
 import { schemaCreateUser, schemaCreateTask } from "./validations";
+import * as argon2 from "argon2";
+
 
 
 const prisma = new PrismaClient()
+
+
+async function hashStringValue(value: string): Promise<string> {
+  try {
+    const hashed = await argon2.hash(value);
+    return hashed;
+  } catch (err) {
+    console.log(err);
+    return value;
+  }
+}
 
 
 export async function createUser(prevState: any, formData: FormData) {
@@ -23,7 +36,7 @@ export async function createUser(prevState: any, formData: FormData) {
   // Return early if the form data is invalid
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      message: validatedFields.error.flatten().fieldErrors,
     }
   }
 
@@ -40,7 +53,7 @@ export async function createUser(prevState: any, formData: FormData) {
       }
     }
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashStringValue(password);
 
     const createUser = await prisma.user.create({
       data: {
@@ -84,11 +97,16 @@ export async function createTask(prevState: any, formData: FormData) {
   const title = formData.get('title') as string
   const description = formData.get('description') as string
 
+  const session = await auth() // calling session
+  const userId: string = session?.user?.id ?? "";
+  console.log("create user:", { userId });
+
   try {
     const createdTask = await prisma.task.create({
       data: {
         title: title,
-        description: description
+        description: description,
+        userId: userId
       }
     });
 
@@ -104,6 +122,11 @@ export async function createTask(prevState: any, formData: FormData) {
   }
 
   revalidatePath("/dashboard/tasks");
+  return {
+    message: 'success'
+  }
+
+  // revalidatePath("/dashboard/tasks");
   // redirect("/dashboard/tasks");
 }
 

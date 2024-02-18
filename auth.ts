@@ -1,21 +1,23 @@
 // auth.ts
 
 
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { PrismaClient } from '@prisma/client';
 import google from 'next-auth/providers/google';
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
+import * as argon2 from "argon2";
+import { PrismaAdapter } from '@auth/prisma-adapter';
+
 
 
 const prisma = new PrismaClient()
 
 
 export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update } = NextAuth({
-  // adapter: PrismaAdapter(prisma),
-  // session: { strategy: "jwt" },
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
   ...authConfig,
   providers: [
     google({
@@ -29,21 +31,18 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
           // let loginRes = await backendLogin(credentials.id, credentials.password)
           try {
             const user = await prisma.user.findUnique({ where: { email: credentials.id as string } });
-            // If no user is found, throw an error
-            if (!user) {
-              return null;
-            }
-
+            // Step 1:If no user is found, throw an error
+            if (!user) { return null; }
             console.log({ user });
-
             // Step 2: Check if the password is correct
-            const isPasswordCorrect = await bcrypt.compare(
-              credentials.password as string,
-              user.password
-            );
-
-            // If password does not match, throw an error
-            if (!isPasswordCorrect) {
+            try {
+              const isPasswordsMatched = await argon2.verify(user.password, credentials.password as string);
+              if (!isPasswordsMatched) {
+                // password did not match
+                return null;
+              }
+            } catch (err) {
+              console.log(err);
               return null;
             }
 
@@ -99,22 +98,26 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
         return true;
       }
     },
-    async session({ session, token }) {
-      // session.user = token.user as User
-      return session;
-    },
-    async jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.user = user;
-      }
-      // ***************************************************************
-      // added code
-      if (trigger === "update" && session) {
-        token = { ...token, user: session }
-        return token;
-      };
-      // **************************************************************
+    async jwt({ token, user }) {
+      if (user) token.user = user;
       return token;
     },
+    async session({ session, token }) {
+      session.user = token.user;
+      return session;
+    }
+    // async jwt({ token, user, trigger, session }) {
+    //   if (user) {
+    //     token.user = user;
+    //   }
+    //   // ***************************************************************
+    //   // added code
+    //   if (trigger === "update" && session) {
+    //     token = { ...token, user: session }
+    //     return token;
+    //   };
+    //   // **************************************************************
+    //   return token;
+    // },
   },
 });

@@ -14,6 +14,7 @@
 - MongoDB NoSQL Database Integration
 - Entire app written with Typescript
 - End to end type safety with Zod
+- Dubugging Support via VS Code Launch ( Run/Debug)
 
 ## Setting up development environment
 

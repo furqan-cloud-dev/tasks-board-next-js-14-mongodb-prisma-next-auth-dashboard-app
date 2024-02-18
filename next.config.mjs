@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    
+};
 
 // const nextConfig = {
 //   webpack: (config) => {

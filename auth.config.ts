@@ -2,8 +2,15 @@
 import type { NextAuthConfig } from 'next-auth';
 import credentials from 'next-auth/providers/credentials';
 import google from 'next-auth/providers/google';
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaClient } from '@prisma/client';
+
+
+const prisma = new PrismaClient()
+
 
 export const authConfig = {
+  adapter: PrismaAdapter(prisma),
   pages: {
     signIn: '/login',
   },

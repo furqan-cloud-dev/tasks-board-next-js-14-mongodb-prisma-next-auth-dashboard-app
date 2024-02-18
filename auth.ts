@@ -8,6 +8,7 @@ import { PrismaClient } from '@prisma/client';
 import google from 'next-auth/providers/google';
 import axios from 'axios';
 import * as argon2 from "argon2";
+
 import { PrismaAdapter } from '@auth/prisma-adapter';
 
 
@@ -16,7 +17,6 @@ const prisma = new PrismaClient()
 
 
 export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update } = NextAuth({
-  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   ...authConfig,
   providers: [
@@ -103,7 +103,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut, unstable_update }
       return token;
     },
     async session({ session, token }) {
-      session.user = token.user;
+      session.user = token.user as any
       return session;
     }
     // async jwt({ token, user, trigger, session }) {

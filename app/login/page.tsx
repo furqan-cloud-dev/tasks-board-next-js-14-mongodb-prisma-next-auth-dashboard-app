@@ -45,7 +45,7 @@ export default function LoginPage() {
                         </div>
                     </form>
                     <div className="mt-10 text-center">
-                        Dont have an account <a className="text-blue-500 underline" href="/signup">Sign up</a>
+                        Dont have an account <a className="text-blue-500 underline" href="/signup">Sign up 2</a>
                     </div>
                 </CardContent>
             </Card>
